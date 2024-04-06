@@ -1,16 +1,17 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '@/styles/Home.module.css'
 import { type GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import { IconButton } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { Header } from '@/components/Header'
-import { StyledDataGrid, TableContainer } from './styles'
+import { NewRegisterButton, StyledDataGrid, TableAddButton, TableContainer } from './styles'
 import ActionsModal from '@/components/DeleteModal'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { Container, Main } from '../styles'
+import insulinServices from '@/services/insulin'
 
 interface Insulin {
   id: number
@@ -32,9 +33,9 @@ export default function Home (): React.ReactElement {
 
   const fetchData = async (): Promise<void> => {
     try {
-      const response = await fetch('https://localhost:7041/api/v1/Insulin')
-      const data: Insulin[] = await response.json()
-      setInsulinData(data)
+      const { data } = await insulinServices().getInsulins()
+
+      setInsulinData(data as Insulin[])
     } catch (error) {
       console.error('Error fetching insulin data:', error)
     }
@@ -124,17 +125,17 @@ export default function Home (): React.ReactElement {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={styles.main}>
-        <div className={styles.container}>
+      <Main>
+        <Container>
           <TableContainer>
-            <div className={styles.tableAdd}>
+            <TableAddButton>
               <Link href="/insulin/create">
-                <button className={styles.newRegister} type="button">
+                <NewRegisterButton type="button">
                   Novo Registro
                   <Image src="/add_icon.png" alt="Logo" width={26} height={26} />
-                </button>
+                </NewRegisterButton>
               </Link>
-            </div>
+            </TableAddButton>
             <StyledDataGrid
               rows={rows}
               columns={columns}
@@ -156,8 +157,8 @@ export default function Home (): React.ReactElement {
               onConfirmDelete={handleDelete}
             />
           </TableContainer>
-        </div>
-      </main>
+        </Container>
+      </Main>
     </>
   )
 }

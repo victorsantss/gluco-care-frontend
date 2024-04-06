@@ -1,8 +1,10 @@
 import Head from 'next/head'
-import styles from '@/styles/Home.module.css'
 import { type ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Header } from '@/components/Header'
 import { useRouter } from 'next/router'
+import { Container, Main, Title } from '@/pages/styles'
+import { InsulinFormCheckbox, InsulinFormInput, InsulinFormLabel, InsulinFormLabelText, InsulinFormSaveButton, InsulinFormSelect, InsulinFormStyle } from './styles'
+import insulinServices from '@/services/insulin'
 
 interface FormData {
   id?: number
@@ -66,30 +68,13 @@ export default function InsulinForm ({ initialValues }: InsulinFormProps): React
 
       if (initialValues?.id != null) {
         // Edit Insulin
-        response = await fetch(`https://localhost:7041/api/v1/Insulin/${initialValues.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ ...formData, id: initialValues.id })
-        })
+        response = await insulinServices().editInsulin({ ...formData, id: initialValues.id })
       } else {
         // Create Insulin
-        response = await fetch('https://localhost:7041/api/v1/Insulin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        })
+        response = await insulinServices().createInsulin(formData)
       }
 
-      if (response.ok) {
-        setFormData({
-          nameInsulin: '',
-          individualApplication: false,
-          typesInsulin: 0
-        })
+      if (response.status >= 200 && response.status < 300) {
         await router.push('/insulin')
       } else {
         alert('Um erro ocorreu ao criar/editar a insulina.')
@@ -106,47 +91,43 @@ export default function InsulinForm ({ initialValues }: InsulinFormProps): React
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <h1 className={styles.title}>
+      <Main>
+        <Container>
+          <Title>
             {(initialValues != null) ? 'Editar Insulina' : 'Cadastrar Insulina'}
-          </h1>
-          <form
+          </Title>
+          <InsulinFormStyle
             onSubmit={(event) => {
               event.preventDefault()
               handleSubmit(event).catch((error) => {
                 console.error('Error in handleSubmit:', error)
               })
             }}
-            className={styles.form}
           >
-            <label htmlFor="nameInsulin" className={styles.label}>
-              <span className={styles.labelText}>Nome</span>
-              <input
+            <InsulinFormLabel htmlFor="nameInsulin">
+              <InsulinFormLabelText>Nome</InsulinFormLabelText>
+              <InsulinFormInput
                 onChange={handleChange}
                 name="nameInsulin"
                 value={formData.nameInsulin}
-                className={styles.input}
                 type="text"
                 required
               />
-            </label>
+            </InsulinFormLabel>
 
-            <label className={styles.label}>
-              <span className={styles.labelText}>Aplicação Individual</span>
-              <input
+            <InsulinFormLabel htmlFor="individualApplication">
+              <InsulinFormLabelText>Aplicação Individual</InsulinFormLabelText>
+              <InsulinFormCheckbox
                 onChange={handleChange}
                 name="individualApplication"
                 checked={formData.individualApplication ?? false}
-                className={styles.checkbox}
                 type="checkbox"
               />
-            </label>
+            </InsulinFormLabel>
 
-            <label className={styles.label}>
-              <span className={styles.labelText}>Tipo de Insulina</span>
-              <select
-                className={styles.input}
+            <InsulinFormLabel htmlFor="typesInsulin">
+              <InsulinFormLabelText>Tipo de Insulina</InsulinFormLabelText>
+              <InsulinFormSelect
                 id="typesInsulin"
                 name="typesInsulin"
                 value={formData.typesInsulin}
@@ -158,13 +139,13 @@ export default function InsulinForm ({ initialValues }: InsulinFormProps): React
                 <option value="2">Ação Rápida</option>
                 <option value="3">Ação Intermediária</option>
                 <option value="4">Ação Lenta</option>
-              </select>
-            </label>
+              </InsulinFormSelect>
+            </InsulinFormLabel>
 
-            <button className={styles.saveButton} type="submit">Salvar</button>
-          </form>
-        </div>
-      </main>
+            <InsulinFormSaveButton type="submit">Salvar</InsulinFormSaveButton>
+          </InsulinFormStyle>
+        </Container>
+      </Main>
     </>
   )
 }

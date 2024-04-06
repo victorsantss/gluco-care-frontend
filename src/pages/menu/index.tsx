@@ -8,6 +8,8 @@ export default function Home (): JSX.Element {
       top: '40%',
       left: '20%'
     }}>
+      <h2>OBS: Menu Provisório <br/> Será feito o restante nas semanas seguintes conforme cronograma!</h2>
+
       <Link href={'/insulin'}>
         <Button variant='outlined'>
           Cadastro Insulina

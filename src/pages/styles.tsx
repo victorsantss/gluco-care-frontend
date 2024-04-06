@@ -1,40 +1,41 @@
-/* .main {
-  font-family: var(--font-mono);
-}
+import styled from 'styled-components'
 
-.container {
+export const Main = styled.main`
+  font-family: var(--font-mono);
+`
+
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
   min-height: calc(100vh - 20rem);
-} */
+`
 
-/* .form {
+export const Title = styled.h1`
+  font-size: 2.25rem;
+  margin-bottom: 1.5rem;
+`
+
+export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 26.25rem;
+  width: 32.5rem;
   gap: 0.75rem;
-} */
+`
 
-/* .label {
-  width: 24.375rem;
-}
+export const LoginLabel = styled.label`
+  width: 32.5rem;
+`
 
-.labelText {
+export const LoginLabelText = styled.span`
   font-size: 1.5rem;
-}
+`
 
-.checkbox {
-  transform: scale(2.3);
-  margin-left: 0.9375rem;
-  color: red;
-}
-
-.input {
+export const LoginInput = styled.input`
   width: 100%;
   height: 3rem;
   margin: 0.5rem 0;
@@ -43,49 +44,32 @@
   border: 1px solid;
   border-radius: 0.25rem;
   font-family: var(--font-mono);
-} */
+`
 
-/* .saveButton {
+export const LoginButton = styled.button`
   width: 100%;
   height: 3.5rem;
   margin-top: 1rem;
   font-size: 1.5rem;
+  font-weight: 700;
   border: 1px solid;
   border-radius: 0.6rem;
   font-family: var(--font-mono);
   cursor: pointer;
   color: white;
   background-color: #6674F4;
-} */
 
+  &:hover {
+    background-color: #5468d4;
+  }
+`
 
-/* .tableAdd {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.newRegister {
-  height: 3.3125rem;
-  margin-bottom: 1.375rem;
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  border: 2px solid;
-  border-radius: 0.6rem;
-  font-family: var(--font-mono);
-  cursor: pointer;
-  color: black;
+export const LoginButtonRegister = styled(LoginButton)`
+  color: #000;
   background-color: transparent;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-} */
+  border: 3px #A1A1A1 solid;
 
-/* .saveButton:hover {
-  background-color: #5468d4;
-} */
-
-/* .title {
-  font-size: 2.25rem;
-  margin-bottom: 1.5rem;
-} */
-
+  &:hover {
+    background-color: #A1A1A1;
+  }
+`

@@ -13,3 +13,28 @@ export const StyledDataGrid = styled(DataGrid)`
 export const TableContainer = styled.div`
   width: 80%;
 `
+
+export const TableAddButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
+export const NewRegisterButton = styled.button`
+  height: 3.3125rem;
+  margin-bottom: 1.375rem;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border: 2px solid;
+  border-radius: 0.6rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  color: black;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`
