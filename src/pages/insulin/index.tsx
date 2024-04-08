@@ -25,6 +25,7 @@ export default function Home (): React.ReactElement {
   const [insulinData, setInsulinData] = useState<Insulin[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [insulinId, setInsulinId] = useState<number | null>(null)
+  const insulinTypes = ['Ultra-rápida', 'Rápida', 'Intermediária', 'Lenta']
 
   const handleCloseModal = (): void => {
     setIsModalOpen(false)
@@ -51,11 +52,9 @@ export default function Home (): React.ReactElement {
     await router.push(`/insulin/edit/${insulin.id}`)
   }
 
-  const handleDelete = async (id: number): Promise<void> => {
+  const handleDelete = async (id: number | null): Promise<void> => {
     try {
-      await fetch(`https://localhost:7041/api/v1/Insulin/${id}`, {
-        method: 'DELETE'
-      })
+      await insulinServices().deleteInsulin(id)
 
       setIsModalOpen(false)
       setInsulinData(insulinData.filter((insulin) => insulin.id !== id))
@@ -115,7 +114,7 @@ export default function Home (): React.ReactElement {
       id: insulin.id,
       nameInsulin: insulin.nameInsulin,
       individualApplication: insulin.individualApplication ? 'Sim' : 'Não',
-      typesInsulin: insulin.typesInsulin
+      typesInsulin: insulinTypes[insulin.typesInsulin - 1]
     }
   })
 

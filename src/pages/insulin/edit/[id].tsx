@@ -1,4 +1,5 @@
 import InsulinForm from '@/components/InsulinForm'
+import insulinServices from '@/services/insulin'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -17,9 +18,8 @@ export default function EditInsulin (): React.ReactElement {
   const fetchData = async (): Promise<void> => {
     try {
       if (id !== '' && typeof id === 'string') {
-        const response = await fetch(`https://localhost:7041/api/v1/Insulin/${id}`)
-        const data: Insulin = await response.json()
-        setInsulinData(data)
+        const { data } = await insulinServices().getInsulin(id)
+        setInsulinData(data as Insulin)
       }
     } catch (error) {
       console.error('Error fetching insulin data:', error)

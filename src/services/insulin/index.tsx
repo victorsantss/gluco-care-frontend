@@ -14,6 +14,10 @@ interface PutData {
 }
 
 const insulinServices = (): any => {
+  const getInsulin = async (id: number): Promise<any> => {
+    return await axiosInstance.get(`api/v1/Insulin/${id}`)
+  }
+
   const getInsulins = async (): Promise<any> => {
     return await axiosInstance.get('api/v1/Insulin')
   }
@@ -44,10 +48,16 @@ const insulinServices = (): any => {
     })
   }
 
+  const deleteInsulin = async (id: number): Promise<any> => {
+    return await axiosInstance.delete(`api/v1/Insulin/${id}`)
+  }
+
   return {
+    getInsulin,
     getInsulins,
     createInsulin,
-    editInsulin
+    editInsulin,
+    deleteInsulin
   }
 }
 
