@@ -4,14 +4,31 @@ import { RegisterButton, RegisterForm, RegisterInput, RegisterLabel, RegisterLab
 import { type ChangeEvent, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import userServices from '@/services/user'
+import { object, string } from 'yup'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-export default function NewAccount (): JSX.Element {
+export default function NewAccount(): JSX.Element {
   const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     passwordConfirmation: ''
+  })
+
+  const validationSchema = object({
+    name: string().required(),
+    email: string().email().required(),
+    password: string().matches(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.*[a-zA-Z]).{6,}$/,
+      'A senha deve conter ao menos 6 caracteres, uma letra maiúscula, uma letra minúscula, um número, e um caractere especial.'
+    ).required(),
+    passwordConfirmation: string()
+      .required()
+      .test('passwords-match', 'As senhas não conferem, por favor tente novamente.', function (value) {
+        return this.parent.password === value
+      })
   })
 
   const handleChange = useCallback(
@@ -30,33 +47,21 @@ export default function NewAccount (): JSX.Element {
     event.preventDefault()
 
     try {
-      if (formData.email === '' || formData.password === '' || formData.name === '' || formData.passwordConfirmation === '') {
-        throw new Error('Por favor preencha todos os campos.')
-      }
-      if (formData.password !== formData.passwordConfirmation) {
-        setFormData({
-          ...formData,
-          password: '',
-          passwordConfirmation: ''
-        })
-        alert('As senhas não conferem, por favor tente novamente.')
-        return
-      }
+      const validateForm = await validationSchema.validate(formData)
+      await userServices().createUser(validateForm)
 
-      const response = await userServices().createUser(formData)
-
-      if (response.status >= 200 && response.status < 300) {
-        await router.push('/')
-      } else {
-        alert('Um erro ocorreu ao criar a conta.')
-      }
+      toast.success('Conta criada com sucesso! Redirecionando para a página inicial...', {
+        autoClose: 2000,
+        onClose: () => { void router.push('/') }
+      })
     } catch (error) {
-      console.error('Error in handleSubmit:', error)
+      toast.error(`${(error as Error).message}`)
     }
   }
 
   return (
     <>
+      <ToastContainer />
       <Header />
       <Main>
         <Container>
@@ -64,12 +69,12 @@ export default function NewAccount (): JSX.Element {
             Nova Conta
           </Title>
           <RegisterForm
-          onSubmit={(event) => {
-            event.preventDefault()
-            handleSubmit(event).catch((error) => {
-              console.error('Error in handleSubmit:', error)
-            })
-          }}
+            onSubmit={(event) => {
+              event.preventDefault()
+              handleSubmit(event).catch((error) => {
+                console.error('Error in handleSubmit:', error)
+              })
+            }}
           >
             <RegisterLabel htmlFor="name">
               <RegisterLabelText>Nome</RegisterLabelText>

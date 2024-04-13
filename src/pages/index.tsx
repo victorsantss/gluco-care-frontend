@@ -4,8 +4,10 @@ import { LoginLabelText, LoginForm, LoginLabel, LoginInput, LoginButton, LoginBu
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import userServices from '@/services/user'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-export default function Home (): JSX.Element {
+export default function Home(): JSX.Element {
   const router = useRouter()
   const [formData, setFormData] = useState({
     email: '',
@@ -29,23 +31,24 @@ export default function Home (): JSX.Element {
 
     try {
       if (formData.email === '' || formData.password === '') {
-        throw new Error('Por favor preencha todos os campos.')
+        toast.error('Por favor preencha todos os campos.')
       }
 
       const response = await userServices().loginUser(formData)
 
-      if (response.status >= 200 && response.status < 300) {
-        await router.push('/menu')
-      } else {
-        alert('Um erro ocorreu ao acessar a conta.')
-      }
+      const userToken = response.data.data
+      localStorage.setItem('token', String(userToken))
+
+      await router.push('/menu')
     } catch (error) {
       console.error('Error in handleSubmit:', error)
+      toast.error('Email ou senha inválidos, por favor tente novamente.')
     }
   }
 
   return (
     <Main>
+      <ToastContainer />
       <Container>
         <Image src="/home_logo.png" alt="Logo" width={520} height={245} />
         <LoginForm

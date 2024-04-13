@@ -23,8 +23,10 @@
     "next": "14.1.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^10.0.5",
     "styled-components": "^6.1.8",
-    "typescript": "*"
+    "typescript": "*",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.4.0",

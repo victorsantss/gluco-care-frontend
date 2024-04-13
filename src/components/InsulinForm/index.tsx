@@ -5,6 +5,8 @@ import { useRouter } from 'next/router'
 import { Container, Main, Title } from '@/pages/styles'
 import { InsulinFormCheckbox, InsulinFormInput, InsulinFormLabel, InsulinFormLabelText, InsulinFormSaveButton, InsulinFormSelect, InsulinFormStyle } from './styles'
 import insulinServices from '@/services/insulin'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface FormData {
   id?: number
@@ -17,13 +19,18 @@ interface InsulinFormProps {
   initialValues?: FormData
 }
 
-export default function InsulinForm ({ initialValues }: InsulinFormProps): React.ReactElement {
+export default function InsulinForm({ initialValues }: InsulinFormProps): React.ReactElement {
   const router = useRouter()
+  const [userToken, setUserToken] = useState<string | null>(null)
   const [formData, setFormData] = useState<FormData>({
     nameInsulin: '',
     individualApplication: false,
     typesInsulin: 0
   })
+
+  useEffect(() => {
+    setUserToken(localStorage.getItem('token'))
+  }, [])
 
   useEffect(() => {
     if (initialValues?.id != null) {
@@ -64,29 +71,24 @@ export default function InsulinForm ({ initialValues }: InsulinFormProps): React
         return
       }
 
-      let response = null
-
       if (initialValues?.id != null) {
         // Edit Insulin
-        response = await insulinServices().editInsulin({ ...formData, id: initialValues.id })
+        await insulinServices().editInsulin({ ...formData, id: initialValues.id, userToken })
       } else {
         // Create Insulin
-        response = await insulinServices().createInsulin(formData)
+        await insulinServices().createInsulin({ ...formData, userToken })
       }
 
-      if (response.status >= 200 && response.status < 300) {
-        await router.push('/insulin')
-      } else {
-        alert('Um erro ocorreu ao criar/editar a insulina.')
-      }
+      await router.push('/insulin')
     } catch (error) {
       console.error('Error submitting form:', error)
-      alert('Um erro ocorreu ao criar/editar a insulina.')
+      toast.error('Um erro ocorreu ao criar/editar a insulina.')
     }
   }
 
   return (
     <>
+      <ToastContainer />
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
