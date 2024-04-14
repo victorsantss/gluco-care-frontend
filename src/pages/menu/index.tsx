@@ -10,6 +10,8 @@ export default function Home(): JSX.Element {
     setUserToken(localStorage.getItem('token'))
   }, [])
 
+  if (userToken == null) return (<h1>Usuário não autenticado</h1>)
+
   return (
     <Container sx={{
       position: 'absolute' as 'absolute',
@@ -17,7 +19,6 @@ export default function Home(): JSX.Element {
       left: '20%'
     }}>
       <h2>OBS: Menu Provisório <br /> Será feito o restante nas semanas seguintes conforme cronograma!</h2>
-      <span>Token: {userToken}</span>
 
       <Link href={'/insulin'}>
         <Button variant='outlined'>

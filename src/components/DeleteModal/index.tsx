@@ -18,14 +18,14 @@ const style = {
 
 interface DeleteModalProps {
   isOpen: boolean
-  insulinId: number | null
+  id: number | null
   onClose: () => void
   onConfirmDelete: (id: number | null) => void
 }
 
-export default function DeleteModal ({ isOpen, insulinId, onClose, onConfirmDelete }: DeleteModalProps): JSX.Element {
+export default function DeleteModal({ isOpen, id, onClose, onConfirmDelete }: DeleteModalProps): JSX.Element {
   const handleDeleteClick = (): void => {
-    onConfirmDelete(insulinId)
+    onConfirmDelete(id)
     onClose()
   }
 
@@ -42,6 +42,8 @@ export default function DeleteModal ({ isOpen, insulinId, onClose, onConfirmDele
             Deseja realmente excluir o Registro?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 1 }} textAlign={'center'} fontFamily={'Sora, sans-serif'}>
+            Podem existir <b>registros</b> atrelados a este item que serão <b>excluídos</b> juntamente com este.
+            <br />
             Esta ação não poderá ser desfeita!
           </Typography>
           <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-evenly' }}>

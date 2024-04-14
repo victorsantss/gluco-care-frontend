@@ -67,7 +67,7 @@ export default function InsulinForm({ initialValues }: InsulinFormProps): React.
 
     try {
       if (formData.nameInsulin === '' || formData.typesInsulin === 0) {
-        alert('Por favor preencha todos os campos.')
+        toast.error('Por favor preencha todos os campos.')
         return
       }
 

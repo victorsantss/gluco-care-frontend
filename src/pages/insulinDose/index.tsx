@@ -11,7 +11,15 @@ import ActionsModal from '@/components/DeleteModal'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Container, Main } from '../styles'
+import insulinDoseServices from '@/services/insulinDose'
 import insulinServices from '@/services/insulin'
+
+interface InsulinDose {
+  id: number
+  amount: number
+  correction: number
+  idTypeInsulin: number
+}
 
 interface Insulin {
   id: number
@@ -24,23 +32,32 @@ export default function Home(): React.ReactElement {
   const router = useRouter()
   const [userToken, setUserToken] = useState<string | null>(null)
 
-  const [insulinData, setInsulinData] = useState<Insulin[]>([])
+  const [insulinDoseData, setInsulinDoseData] = useState<InsulinDose[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [insulinId, setInsulinId] = useState<number | null>(null)
-  const insulinTypes = ['Ultra-rápida', 'Rápida', 'Intermediária', 'Lenta']
+  const [insulinDoseId, setInsulinDoseId] = useState<number | null>(null)
+  const [insulinNamesData, setInsulinNamesData] = useState<Insulin[]>([])
 
   const handleCloseModal = (): void => {
     setIsModalOpen(false)
-    setInsulinId(null)
+    setInsulinDoseId(null)
   }
 
   const fetchData = async (): Promise<void> => {
     try {
-      const { data } = await insulinServices().getInsulins(userToken)
+      const { data } = await insulinDoseServices().getInsulinDoses(userToken)
+      const { data: insulinTypes } = await insulinServices().getInsulins(userToken)
 
-      setInsulinData(data as Insulin[])
+      const insulinNames = insulinTypes.map((insulin: Insulin) => {
+        return {
+          id: insulin.id,
+          nameInsulin: insulin.nameInsulin
+        }
+      })
+
+      setInsulinNamesData(insulinNames as Insulin[])
+      setInsulinDoseData(data as InsulinDose[])
     } catch (error) {
-      console.error('Error fetching insulin data:', error)
+      console.error('Error fetching insulin dose data:', error)
     }
   }
 
@@ -52,40 +69,39 @@ export default function Home(): React.ReactElement {
     })
   }, [userToken])
 
-  const handleEdit = async (insulin: Insulin): Promise<void> => {
-    await router.push(`/insulin/edit/${insulin.id}`)
+  const handleEdit = async (insulinDose: InsulinDose): Promise<void> => {
+    await router.push(`/insulinDose/edit/${insulinDose.id}`)
   }
 
   const handleDelete = async (id: number | null): Promise<void> => {
     try {
-      await insulinServices().deleteInsulin(id, userToken)
+      await insulinDoseServices().deleteInsulinDose(id, userToken)
 
       setIsModalOpen(false)
-      setInsulinData(insulinData.filter((insulin) => insulin.id !== id))
+      setInsulinDoseData(insulinDoseData.filter((insulinDose) => insulinDose.id !== id))
     } catch (error) {
-      console.error('Error deleting insulin:', error)
+      console.error('Error deleting insulin dose:', error)
     }
   }
 
   const columns: Array<GridColDef<(typeof rows)[number]>> = [
     {
-      field: 'nameInsulin',
-      headerName: 'Nome',
-      flex: 1,
-      align: 'center',
-      headerAlign: 'center'
-    },
-    {
-      field: 'individualApplication',
-      headerName: 'Aplicação Individual',
-      flex: 1,
-      align: 'center',
-      headerAlign: 'center'
-    },
-    {
-      field: 'typesInsulin',
+      field: 'idTypeInsulin',
       headerName: 'Tipo de Insulina',
-      type: 'number',
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center'
+    },
+    {
+      field: 'amount',
+      headerName: 'Quantidade',
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center'
+    },
+    {
+      field: 'correction',
+      headerName: 'Correção',
       flex: 1,
       align: 'center',
       headerAlign: 'center'
@@ -104,7 +120,7 @@ export default function Home(): React.ReactElement {
           </IconButton>
           <IconButton onClick={() => {
             setIsModalOpen(true)
-            setInsulinId(params.row.id)
+            setInsulinDoseId(params.row.id)
           }}>
             <DeleteIcon />
           </IconButton>
@@ -113,12 +129,14 @@ export default function Home(): React.ReactElement {
     }
   ]
 
-  const rows = insulinData.map((insulin) => {
+  const rows = insulinDoseData.map((insulinDose) => {
+    const insulinName = insulinNamesData.find((insulin) => insulin.id === insulinDose.idTypeInsulin)?.nameInsulin
+
     return {
-      id: insulin.id,
-      nameInsulin: insulin.nameInsulin,
-      individualApplication: insulin.individualApplication ? 'Sim' : 'Não',
-      typesInsulin: insulinTypes[insulin.typesInsulin - 1]
+      id: insulinDose.id,
+      amount: insulinDose.amount,
+      correction: insulinDose.correction,
+      idTypeInsulin: insulinName
     }
   })
 
@@ -132,7 +150,7 @@ export default function Home(): React.ReactElement {
         <Container>
           <TableContainer>
             <TableAddButton>
-              <Link href="/insulin/create">
+              <Link href="/insulinDose/create">
                 <NewRegisterButton type="button">
                   Novo Registro
                   <Image src="/add_icon.png" alt="Logo" width={26} height={26} />
@@ -155,7 +173,7 @@ export default function Home(): React.ReactElement {
             />
             <ActionsModal
               isOpen={isModalOpen}
-              id={insulinId}
+              id={insulinDoseId}
               onClose={handleCloseModal}
               onConfirmDelete={handleDelete}
             />
