@@ -92,7 +92,7 @@ export default function InsulinForm({ initialValues }: InsulinFormProps): React.
       <Main>
         <Container>
           <ContentHeader
-            url='/insulin'
+            goBackUrl='/insulin'
             title={(initialValues != null) ? 'Editar Insulina' : 'Cadastrar Insulina'}
           />
           <InsulinFormStyle

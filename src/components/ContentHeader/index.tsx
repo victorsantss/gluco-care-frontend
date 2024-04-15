@@ -2,14 +2,14 @@ import GoBackButton from '../GoBackButton'
 import { Title, TitleContainer } from './styles'
 
 interface ContentHeaderProps {
-  url: string
+  goBackUrl: string
   title: string
 }
 
-export default function ContentHeader({ url, title }: ContentHeaderProps): React.ReactElement {
+export default function ContentHeader({ goBackUrl, title }: ContentHeaderProps): React.ReactElement {
   return (
     <TitleContainer>
-      <GoBackButton url={url} />
+      <GoBackButton url={goBackUrl} />
       <Title>
         {title}
       </Title>

@@ -4,13 +4,13 @@ export function middleware(request: NextRequest): NextResponse | undefined {
   const userToken = request.cookies.get('userToken')?.value
   const userTokenExists = userToken !== undefined
 
-  if (userTokenExists && request.nextUrl.pathname === '/') {
+  if (userTokenExists && ['/', '/account/new'].includes(request.nextUrl.pathname)) {
     const url = request.nextUrl.clone()
     url.pathname = '/menu'
     return NextResponse.redirect(url)
   }
 
-  if (!userTokenExists && request.nextUrl.pathname !== '/') {
+  if (!userTokenExists && !['/', '/account/new'].includes(request.nextUrl.pathname)) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
     return NextResponse.redirect(url)

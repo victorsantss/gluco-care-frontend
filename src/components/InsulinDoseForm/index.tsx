@@ -109,7 +109,7 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
       <Main>
         <Container>
           <ContentHeader
-            url='/insulinDose'
+            goBackUrl='/insulinDose'
             title={(initialValues != null) ? 'Editar Dose de Insulina' : 'Cadastrar Dose de Insulina'}
           />
           <InsulinFormStyle

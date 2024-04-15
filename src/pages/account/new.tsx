@@ -1,5 +1,5 @@
 import { Header } from '@/components/Header'
-import { Container, Main, Title } from '../styles'
+import { Container, Main } from '../styles'
 import { RegisterButton, RegisterForm, RegisterInput, RegisterLabel, RegisterLabelText } from './styles'
 import { type ChangeEvent, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -7,6 +7,7 @@ import userServices from '@/services/user'
 import { object, string } from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import ContentHeader from '@/components/ContentHeader'
 
 export default function NewAccount(): JSX.Element {
   const router = useRouter()
@@ -65,9 +66,7 @@ export default function NewAccount(): JSX.Element {
       <Header />
       <Main>
         <Container>
-          <Title>
-            Nova Conta
-          </Title>
+          <ContentHeader title='Nova Conta' goBackUrl='/' />
           <RegisterForm
             onSubmit={(event) => {
               event.preventDefault()
