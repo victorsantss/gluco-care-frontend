@@ -4,6 +4,7 @@ import { LoginLabelText, LoginForm, LoginLabel, LoginInput, LoginButton, LoginBu
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import userServices from '@/services/user'
+import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -37,7 +38,7 @@ export default function Home(): JSX.Element {
       const response = await userServices().loginUser(formData)
 
       const userToken = response.data.data
-      localStorage.setItem('token', String(userToken))
+      Cookies.set('userToken', userToken)
 
       await router.push('/menu')
     } catch (error) {

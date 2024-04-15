@@ -21,16 +21,11 @@ interface InsulinFormProps {
 
 export default function InsulinForm({ initialValues }: InsulinFormProps): React.ReactElement {
   const router = useRouter()
-  const [userToken, setUserToken] = useState<string | null>(null)
   const [formData, setFormData] = useState<FormData>({
     nameInsulin: '',
     individualApplication: false,
     typesInsulin: 0
   })
-
-  useEffect(() => {
-    setUserToken(localStorage.getItem('token'))
-  }, [])
 
   useEffect(() => {
     if (initialValues?.id != null) {
@@ -73,10 +68,10 @@ export default function InsulinForm({ initialValues }: InsulinFormProps): React.
 
       if (initialValues?.id != null) {
         // Edit Insulin
-        await insulinServices().editInsulin({ ...formData, id: initialValues.id, userToken })
+        await insulinServices().editInsulin({ ...formData, id: initialValues.id })
       } else {
         // Create Insulin
-        await insulinServices().createInsulin({ ...formData, userToken })
+        await insulinServices().createInsulin({ ...formData })
       }
 
       await router.push('/insulin')

@@ -30,7 +30,6 @@ interface Insulin {
 
 export default function Home(): React.ReactElement {
   const router = useRouter()
-  const [userToken, setUserToken] = useState<string | null>(null)
 
   const [insulinDoseData, setInsulinDoseData] = useState<InsulinDose[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,8 +43,8 @@ export default function Home(): React.ReactElement {
 
   const fetchData = async (): Promise<void> => {
     try {
-      const { data } = await insulinDoseServices().getInsulinDoses(userToken)
-      const { data: insulinTypes } = await insulinServices().getInsulins(userToken)
+      const { data } = await insulinDoseServices().getInsulinDoses()
+      const { data: insulinTypes } = await insulinServices().getInsulins()
 
       const insulinNames = insulinTypes.map((insulin: Insulin) => {
         return {
@@ -62,12 +61,10 @@ export default function Home(): React.ReactElement {
   }
 
   useEffect(() => {
-    setUserToken(localStorage.getItem('token'))
-
     fetchData().catch((error) => {
       console.error('Error in fetchData:', error)
     })
-  }, [userToken])
+  }, [])
 
   const handleEdit = async (insulinDose: InsulinDose): Promise<void> => {
     await router.push(`/insulinDose/edit/${insulinDose.id}`)
@@ -75,7 +72,7 @@ export default function Home(): React.ReactElement {
 
   const handleDelete = async (id: number | null): Promise<void> => {
     try {
-      await insulinDoseServices().deleteInsulinDose(id, userToken)
+      await insulinDoseServices().deleteInsulinDose(id)
 
       setIsModalOpen(false)
       setInsulinDoseData(insulinDoseData.filter((insulinDose) => insulinDose.id !== id))

@@ -1,10 +1,10 @@
 import axiosInstance from '@/modules/axios'
+import Cookies from 'js-cookie'
 
 interface PostData {
   amount: number
   correction: number
   idTypeInsulin: number
-  userToken: string
 }
 
 interface PutData {
@@ -12,15 +12,16 @@ interface PutData {
   amount: number
   correction: number
   idTypeInsulin: number
-  userToken: string
 }
 
 const insulinDoseServices = (): any => {
+  const userToken = Cookies.get('userToken')
+
   const getInsulinDose = async (id: number): Promise<any> => {
     return await axiosInstance.get(`api/v1/InsulinDose/${id}`)
   }
 
-  const getInsulinDoses = async (userToken: string): Promise<any> => {
+  const getInsulinDoses = async (): Promise<any> => {
     return await axiosInstance.get('api/v1/InsulinDose', {
       headers: {
         Authorization: `Bearer ${userToken}`
@@ -31,8 +32,7 @@ const insulinDoseServices = (): any => {
   const createInsulinDose = async ({
     amount,
     correction,
-    idTypeInsulin,
-    userToken
+    idTypeInsulin
   }: PostData): Promise<any> => {
     return await axiosInstance.post('api/v1/InsulinDose', {
       amount,
@@ -49,8 +49,7 @@ const insulinDoseServices = (): any => {
     id,
     amount,
     correction,
-    idTypeInsulin,
-    userToken
+    idTypeInsulin
   }: PutData): Promise<any> => {
     return await axiosInstance.put(`api/v1/InsulinDose/${id}`, {
       id,

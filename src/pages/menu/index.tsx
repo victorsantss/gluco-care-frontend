@@ -1,16 +1,15 @@
 import { Button, Container } from '@mui/material'
+import Cookies from 'js-cookie'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function Home(): JSX.Element {
-  // passar pra um hook
-  const [userToken, setUserToken] = useState<string | null>(null)
+  const router = useRouter()
 
-  useEffect(() => {
-    setUserToken(localStorage.getItem('token'))
-  }, [])
-
-  if (userToken == null) return (<h1>Usuário não autenticado</h1>)
+  const handleLogout = (): void => {
+    Cookies.remove('userToken')
+    void router.push('/')
+  }
 
   return (
     <Container sx={{
@@ -30,6 +29,9 @@ export default function Home(): JSX.Element {
           Cadastro Dose Insulina
         </Button>
       </Link>
+      <Button onClick={handleLogout} sx={{ marginLeft: '20px' }} color='error' variant='outlined'>
+        Logout
+      </Button>
     </Container >
   )
 }

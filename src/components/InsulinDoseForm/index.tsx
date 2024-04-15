@@ -29,7 +29,6 @@ interface Insulin {
 
 export default function InsulinDoseForm({ initialValues }: InsulinFormProps): React.ReactElement {
   const router = useRouter()
-  const [userToken, setUserToken] = useState<string | null>(null)
   const [formData, setFormData] = useState<FormData>({
     amount: 0,
     correction: 0,
@@ -39,7 +38,7 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
 
   const fetchData = async (): Promise<void> => {
     try {
-      const { data } = await insulinServices().getInsulins(userToken)
+      const { data } = await insulinServices().getInsulins()
 
       setInsulinTypes(data as Insulin[])
     } catch (error) {
@@ -48,11 +47,10 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
   }
 
   useEffect(() => {
-    setUserToken(localStorage.getItem('token'))
     fetchData().catch((error) => {
       console.error('Error in fetchData:', error)
     })
-  }, [userToken])
+  }, [])
 
   useEffect(() => {
     if (initialValues?.id != null) {
@@ -87,10 +85,10 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
 
       if (initialValues?.id != null) {
         // Edit Insulin Dose
-        await insulinDoseServices().editInsulinDose({ ...formData, id: initialValues.id, userToken })
+        await insulinDoseServices().editInsulinDose({ ...formData, id: initialValues.id })
       } else {
         // Create Insulin Dose
-        await insulinDoseServices().createInsulinDose({ ...formData, userToken })
+        await insulinDoseServices().createInsulinDose({ ...formData })
       }
 
       await router.push('/insulinDose')
