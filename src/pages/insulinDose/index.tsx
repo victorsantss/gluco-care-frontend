@@ -14,6 +14,8 @@ import { Container, Main } from '../styles'
 import insulinDoseServices from '@/services/insulinDose'
 import insulinServices from '@/services/insulin'
 import ContentHeader from '@/components/ContentHeader'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface InsulinDose {
   id: number
@@ -71,6 +73,13 @@ export default function Home(): React.ReactElement {
     await router.push(`/insulinDose/edit/${insulinDose.id}`)
   }
 
+  const handleDeleteWrapper = (id: number | null): void => {
+    handleDelete(id).catch((error) => {
+      toast.error('Erro ao deletar a dose de insulina')
+      console.error('Error deleting insulin dose:', error)
+    })
+  }
+
   const handleDelete = async (id: number | null): Promise<void> => {
     try {
       await insulinDoseServices().deleteInsulinDose(id)
@@ -88,7 +97,8 @@ export default function Home(): React.ReactElement {
       headerName: 'Tipo de Insulina',
       flex: 1,
       align: 'center',
-      headerAlign: 'center'
+      headerAlign: 'center',
+      renderCell: (params) => insulinNamesData.find((insulin) => insulin.id === params.value)?.nameInsulin
     },
     {
       field: 'amount',
@@ -113,7 +123,7 @@ export default function Home(): React.ReactElement {
       headerAlign: 'center',
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => { handleEdit(params.row) }}>
+          <IconButton onClick={() => { void handleEdit(params.row) }}>
             <EditIcon />
           </IconButton>
           <IconButton onClick={() => {
@@ -128,18 +138,17 @@ export default function Home(): React.ReactElement {
   ]
 
   const rows = insulinDoseData.map((insulinDose) => {
-    const insulinName = insulinNamesData.find((insulin) => insulin.id === insulinDose.idTypeInsulin)?.nameInsulin
-
     return {
       id: insulinDose.id,
       amount: insulinDose.amount,
       correction: insulinDose.correction,
-      idTypeInsulin: insulinName
+      idTypeInsulin: insulinDose.idTypeInsulin
     }
   })
 
   return (
     <>
+      <ToastContainer />
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -158,6 +167,8 @@ export default function Home(): React.ReactElement {
             </TableAddButton>
             <StyledDataGrid
               rows={rows}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
               columns={columns}
               disableRowSelectionOnClick
               autoHeight
@@ -174,7 +185,7 @@ export default function Home(): React.ReactElement {
               isOpen={isModalOpen}
               id={insulinDoseId}
               onClose={handleCloseModal}
-              onConfirmDelete={handleDelete}
+              onConfirmDelete={(id) => { handleDeleteWrapper(id) }}
             />
           </TableContainer>
         </Container>

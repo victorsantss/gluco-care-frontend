@@ -38,7 +38,7 @@ export default function Home(): JSX.Element {
       const response = await userServices().loginUser(formData)
 
       const userToken = response.data.data
-      Cookies.set('userToken', userToken)
+      Cookies.set('userToken', String(userToken))
 
       await router.push('/menu')
     } catch (error) {
