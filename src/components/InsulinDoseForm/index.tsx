@@ -2,12 +2,13 @@ import Head from 'next/head'
 import { type ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Header } from '@/components/Header'
 import { useRouter } from 'next/router'
-import { Container, Main, Title } from '@/pages/styles'
+import { Container, Main } from '@/pages/styles'
 import { InsulinFormInput, InsulinFormLabel, InsulinFormLabelText, InsulinFormSaveButton, InsulinFormSelect, InsulinFormStyle } from './styles'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import insulinDoseServices from '@/services/insulinDose'
 import insulinServices from '@/services/insulin'
+import ContentHeader from '../ContentHeader'
 
 interface FormData {
   id?: number
@@ -107,9 +108,10 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
       <Header />
       <Main>
         <Container>
-          <Title>
-            {(initialValues != null) ? 'Editar Dose de Insulina' : 'Cadastrar Dose de Insulina'}
-          </Title>
+          <ContentHeader
+            url='/insulinDose'
+            title={(initialValues != null) ? 'Editar Dose de Insulina' : 'Cadastrar Dose de Insulina'}
+          />
           <InsulinFormStyle
             onSubmit={(event) => {
               event.preventDefault()

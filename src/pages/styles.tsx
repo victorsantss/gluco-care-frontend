@@ -13,11 +13,6 @@ export const Container = styled.div`
   min-height: calc(100vh - 20rem);
 `
 
-export const Title = styled.h1`
-  font-size: 2.25rem;
-  margin-bottom: 1.5rem;
-`
-
 export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;

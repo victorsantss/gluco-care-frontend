@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { Container, Main } from '../styles'
 import insulinDoseServices from '@/services/insulinDose'
 import insulinServices from '@/services/insulin'
+import ContentHeader from '@/components/ContentHeader'
 
 interface InsulinDose {
   id: number
@@ -145,6 +146,7 @@ export default function Home(): React.ReactElement {
       <Header />
       <Main>
         <Container>
+          <ContentHeader url='/' title='Doses de Insulina' />
           <TableContainer>
             <TableAddButton>
               <Link href="/insulinDose/create">
