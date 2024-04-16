@@ -7,6 +7,7 @@ import userServices from '@/services/user'
 import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import homeLogo from '../assets/home_logo.png'
 
 export default function Home(): JSX.Element {
   const router = useRouter()
@@ -51,7 +52,7 @@ export default function Home(): JSX.Element {
     <Main>
       <ToastContainer />
       <Container>
-        <Image src="/home_logo.png" alt="Logo" width={520} height={245} />
+        <Image src={homeLogo} alt="Logo" width={520} height={245} />
         <LoginForm
           onSubmit={(event) => {
             event.preventDefault()

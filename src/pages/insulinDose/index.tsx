@@ -16,6 +16,7 @@ import insulinServices from '@/services/insulin'
 import ContentHeader from '@/components/ContentHeader'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import addIcon from '../../assets/add_icon.png'
 
 interface InsulinDose {
   id: number
@@ -161,7 +162,7 @@ export default function Home(): React.ReactElement {
               <Link href="/insulinDose/create">
                 <NewRegisterButton type="button">
                   Novo Registro
-                  <Image src="/add_icon.png" alt="Logo" width={26} height={26} />
+                  <Image src={addIcon} alt="Add" width={26} height={26} />
                 </NewRegisterButton>
               </Link>
             </TableAddButton>
