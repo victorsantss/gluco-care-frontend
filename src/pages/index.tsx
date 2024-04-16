@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { type ChangeEvent, useCallback, useState } from 'react'
-import { LoginLabelText, LoginForm, LoginLabel, LoginInput, LoginButton, LoginButtonRegister, Main, Container } from './styles'
+import { LoginLabelText, LoginForm, LoginLabel, LoginInput, LoginButton, LoginButtonRegister, Main, Container } from '../styles/HomeStyles'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import userServices from '@/services/user'

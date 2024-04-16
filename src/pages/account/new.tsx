@@ -1,6 +1,6 @@
 import { Header } from '@/components/Header'
-import { Container, Main } from '../styles'
-import { RegisterButton, RegisterForm, RegisterInput, RegisterLabel, RegisterLabelText } from './styles'
+import { Container, Main } from '../../styles/HomeStyles'
+import { RegisterButton, RegisterForm, RegisterInput, RegisterLabel, RegisterLabelText } from '../../styles/AccountStyles'
 import { type ChangeEvent, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import userServices from '@/services/user'

@@ -2,13 +2,13 @@ import Head from 'next/head'
 import { type ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Header } from '@/components/Header'
 import { useRouter } from 'next/router'
-import { Container, Main } from '@/pages/styles'
 import { InsulinFormInput, InsulinFormLabel, InsulinFormLabelText, InsulinFormSaveButton, InsulinFormSelect, InsulinFormStyle } from './styles'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import insulinDoseServices from '@/services/insulinDose'
 import insulinServices from '@/services/insulin'
 import ContentHeader from '../ContentHeader'
+import { Container, Main } from '@/styles/HomeStyles'
 
 interface FormData {
   id?: number
