@@ -1,37 +1,34 @@
-import { Button, Container } from '@mui/material'
-import Cookies from 'js-cookie'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { Header } from '@/components/Header'
+import MenuCard from '@/components/MenuCard'
+import addIcon from '@/assets/add_icon_menu.png'
+import configIcon from '@/assets/config_icon_menu.png'
+import insulinIcon from '@/assets/insulin_icon_menu.png'
+import insulinDoseIcon from '@/assets/insulin_dose_icon_menu.png'
+import registersIcon from '@/assets/registers_icon_menu.png'
+
+import Head from 'next/head'
+import { Main } from '@/styles/HomeStyles'
+import { MenuCards, MenuContainer } from '@/styles/MenuStyles'
 
 export default function Home(): JSX.Element {
-  const router = useRouter()
-
-  const handleLogout = (): void => {
-    Cookies.remove('userToken')
-    void router.push('/')
-  }
-
   return (
-    <Container sx={{
-      position: 'absolute' as 'absolute',
-      top: '40%',
-      left: '20%'
-    }}>
-      <h2>OBS: Menu Provisório <br /> Será feito o restante nas semanas seguintes conforme cronograma!</h2>
+    <>
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Header />
 
-      <Link href={'/insulin'}>
-        <Button variant='outlined'>
-          Cadastro Insulina
-        </Button>
-      </Link>
-      <Link href={'/insulinDose'}>
-        <Button sx={{ marginLeft: '20px' }} variant='outlined'>
-          Cadastro Dose Insulina
-        </Button>
-      </Link>
-      <Button onClick={handleLogout} sx={{ marginLeft: '20px' }} color='error' variant='outlined'>
-        Logout
-      </Button>
-    </Container >
+      <Main>
+        <MenuContainer>
+          <MenuCards>
+            <MenuCard title='Nova Leitura de Glicose' icon={addIcon} url='/' />
+            <MenuCard title='Cadastro Dose de Insulina' icon={insulinDoseIcon} url='/insulinDose' />
+            <MenuCard title='Cadastro Insulina' icon={insulinIcon} url='/insulin' />
+            <MenuCard title='Registros de Leitura' icon={registersIcon} url='/' />
+            <MenuCard title='Configurações' icon={configIcon} url='/config' />
+          </MenuCards>
+        </MenuContainer>
+      </Main>
+    </>
   )
 }
