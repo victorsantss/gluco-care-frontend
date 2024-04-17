@@ -17,6 +17,7 @@ export const MenuCardContainer = styled.div`
 
   &:hover {
     box-shadow: 0 10px 8px #888888;
+    transition: 0.3s;
   }
 `
 export const MenuCardTitle = styled.span`

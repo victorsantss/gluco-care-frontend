@@ -25,7 +25,7 @@ export default function Home(): JSX.Element {
             <MenuCard title='Cadastro Dose de Insulina' icon={insulinDoseIcon} url='/insulinDose' />
             <MenuCard title='Cadastro Insulina' icon={insulinIcon} url='/insulin' />
             <MenuCard title='Registros de Leitura' icon={registersIcon} url='/' />
-            <MenuCard title='Configurações' icon={configIcon} url='/config' />
+            <MenuCard title='Configurações' icon={configIcon} url='/configPage' />
           </MenuCards>
         </MenuContainer>
       </Main>
