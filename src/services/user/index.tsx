@@ -1,4 +1,5 @@
 import axiosInstance from '@/modules/axios'
+import Cookies from 'js-cookie'
 
 interface PostData {
   name?: string
@@ -7,6 +8,8 @@ interface PostData {
 }
 
 const userServices = (): any => {
+  const userToken = Cookies.get('userToken')
+
   const createUser = async ({
     name,
     email,
@@ -29,9 +32,33 @@ const userServices = (): any => {
     })
   }
 
+  const editUser = async ({
+    email,
+    name
+  }: PostData): Promise<any> => {
+    return await axiosInstance.put('api/v1/User', {
+      email,
+      name
+    }, {
+      headers: {
+        Authorization: `Bearer ${userToken}`
+      }
+    })
+  }
+
+  const getUser = async (): Promise<any> => {
+    return await axiosInstance.get('api/v1/User', {
+      headers: {
+        Authorization: `Bearer ${userToken}`
+      }
+    })
+  }
+
   return {
     createUser,
-    loginUser
+    loginUser,
+    editUser,
+    getUser
   }
 }
 

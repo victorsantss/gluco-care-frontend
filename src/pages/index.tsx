@@ -8,6 +8,7 @@ import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import homeLogo from '../assets/home_logo.png'
+import CircularProgress from '@mui/material/CircularProgress'
 
 export default function Home(): JSX.Element {
   const router = useRouter()
@@ -15,6 +16,7 @@ export default function Home(): JSX.Element {
     email: '',
     password: ''
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -35,14 +37,15 @@ export default function Home(): JSX.Element {
       if (formData.email === '' || formData.password === '') {
         toast.error('Por favor preencha todos os campos.')
       }
+      setIsLoading(true)
 
       const response = await userServices().loginUser(formData)
-
       const userToken = response.data.data
       Cookies.set('userToken', String(userToken))
 
       await router.push('/menu')
     } catch (error) {
+      setIsLoading(false)
       console.error('Error in handleSubmit:', error)
       toast.error('Email ou senha inválidos, por favor tente novamente.')
     }
@@ -81,7 +84,9 @@ export default function Home(): JSX.Element {
             />
           </LoginLabel>
 
-          <LoginButton type="submit">Entrar</LoginButton>
+          <LoginButton type="submit" disabled={isLoading}>
+            {isLoading ? <CircularProgress color="inherit" size={32} /> : 'Entrar'}
+          </LoginButton>
 
           <LoginButtonRegister type="button">
             <Link href="/account/new">

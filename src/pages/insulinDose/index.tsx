@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { type GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
-import { IconButton } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { Header } from '@/components/Header'
@@ -173,6 +173,19 @@ export default function Home(): React.ReactElement {
               columns={columns}
               disableRowSelectionOnClick
               autoHeight
+              slots={{
+                noRowsOverlay: () => (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      height: '100%',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                    Sem registros
+                  </Box>
+                )
+              }}
               initialState={{
                 pagination: {
                   paginationModel: {

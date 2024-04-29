@@ -8,6 +8,7 @@ import { object, string } from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ContentHeader from '@/components/ContentHeader'
+import { CircularProgress } from '@mui/material'
 
 export default function NewAccount(): JSX.Element {
   const router = useRouter()
@@ -17,6 +18,8 @@ export default function NewAccount(): JSX.Element {
     password: '',
     passwordConfirmation: ''
   })
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const validationSchema = object({
     name: string().required(),
@@ -48,6 +51,7 @@ export default function NewAccount(): JSX.Element {
     event.preventDefault()
 
     try {
+      setIsLoading(true)
       const validateForm = await validationSchema.validate(formData)
       await userServices().createUser(validateForm)
 
@@ -56,7 +60,9 @@ export default function NewAccount(): JSX.Element {
         onClose: () => { void router.push('/') }
       })
     } catch (error) {
-      toast.error(`${(error as Error).message}`)
+      setIsLoading(false)
+      console.error('Error submitting form:', error)
+      toast.error('Um erro ocorreu ao criar a conta.')
     }
   }
 
@@ -119,7 +125,9 @@ export default function NewAccount(): JSX.Element {
               />
             </RegisterLabel>
 
-            <RegisterButton type="submit">Cadastrar</RegisterButton>
+            <RegisterButton type="submit" disabled={isLoading}>
+              {isLoading ? <CircularProgress color="inherit" size={32} /> : 'Cadastrar'}
+            </RegisterButton>
 
           </RegisterForm>
         </Container>

@@ -22,3 +22,39 @@ export const FormCheckbox = styled.input`
   margin-left: 0.9375rem;
   color: red;
 `
+
+export const FormInput = styled.input`
+  width: 100%;
+  height: 3rem;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+`
+
+export const FormSaveButton = styled.button`
+  width: 100%;
+  height: 3.5rem;
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  border: 1px solid;
+  border-radius: 0.6rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  color: white;
+  background-color: #6674F4;
+
+  &:hover {
+    background-color: #5468d4;
+  }
+`
+
+export const FormLogoutButton = styled(FormSaveButton)`
+  background-color: #E90404;
+
+  &:hover {
+    background-color: #BB0303;
+  }
+`
