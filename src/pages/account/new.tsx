@@ -87,6 +87,7 @@ export default function NewAccount(): JSX.Element {
                 onChange={handleChange}
                 name="name"
                 type="text"
+                placeholder="Pedro Silva"
                 value={formData.name}
                 required
               />
@@ -98,8 +99,10 @@ export default function NewAccount(): JSX.Element {
                 onChange={handleChange}
                 name="email"
                 type="email"
+                placeholder="pedro@exemplo.com"
                 value={formData.email}
                 required
+                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
               />
             </RegisterLabel>
 
