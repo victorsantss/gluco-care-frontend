@@ -6,16 +6,14 @@ import insulinIcon from '@/assets/insulin_icon_menu.png'
 import insulinDoseIcon from '@/assets/insulin_dose_icon_menu.png'
 import registersIcon from '@/assets/registers_icon_menu.png'
 
-import Head from 'next/head'
 import { Main } from '@/styles/HomeStyles'
 import { MenuCards, MenuContainer } from '@/styles/MenuStyles'
+import HeadContent from '@/components/Head'
 
 export default function Home(): JSX.Element {
   return (
     <>
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeadContent title="Menu" />
       <Header />
 
       <Main>

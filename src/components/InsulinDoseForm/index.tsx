@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { type ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Header } from '@/components/Header'
 import { useRouter } from 'next/router'
@@ -9,6 +8,7 @@ import insulinDoseServices from '@/services/insulinDose'
 import insulinServices from '@/services/insulin'
 import ContentHeader from '../ContentHeader'
 import { Container, Main } from '@/styles/HomeStyles'
+import HeadContent from '../Head'
 
 interface FormData {
   id?: number
@@ -102,9 +102,7 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
   return (
     <>
       <ToastContainer />
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeadContent title="Dose de Insulina" />
       <Header />
       <Main>
         <Container>

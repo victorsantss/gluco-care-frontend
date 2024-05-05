@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
+import HeadContent from '@/components/Head'
 
 interface User {
   email: string
@@ -77,6 +78,7 @@ export default function Home(): JSX.Element {
   return (
     <>
       <ToastContainer />
+      <HeadContent title="Minha Conta" />
       <Header />
       <Main>
         <Container>

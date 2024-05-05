@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Image from 'next/image'
 import { type GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
@@ -16,6 +15,7 @@ import ContentHeader from '@/components/ContentHeader'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import addIcon from '../../assets/add_icon.png'
+import HeadContent from '@/components/Head'
 
 interface Insulin {
   id: number
@@ -135,9 +135,7 @@ export default function Home(): React.ReactElement {
   return (
     <>
       <ToastContainer />
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeadContent title="Insulinas" />
       <Header />
       <Main>
         <Container>

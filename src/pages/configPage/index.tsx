@@ -1,10 +1,10 @@
 import { Header } from '@/components/Header'
-import Head from 'next/head'
 import { Container, Main } from '@/styles/HomeStyles'
 import ContentHeader from '@/components/ContentHeader'
 import { FormCheckbox, FormLabel, FormLabelText, FormStyled } from '@/styles/ConfigStyles'
 import configServices from '@/services/config'
 import { type ChangeEvent, useCallback, useEffect, useState } from 'react'
+import HeadContent from '@/components/Head'
 
 interface Config {
   applyInsulinSnack?: boolean
@@ -63,11 +63,8 @@ export default function Home(): JSX.Element {
 
   return (
     <>
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeadContent title="Configurações" />
       <Header />
-
       <Main>
         <Container>
           <ContentHeader title='Configurações' goBackUrl='/' />

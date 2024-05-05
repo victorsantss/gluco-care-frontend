@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import homeLogo from '../assets/home_logo.png'
 import CircularProgress from '@mui/material/CircularProgress'
+import HeadContent from '@/components/Head'
 
 export default function Home(): JSX.Element {
   const router = useRouter()
@@ -52,50 +53,53 @@ export default function Home(): JSX.Element {
   }
 
   return (
-    <Main>
-      <ToastContainer />
-      <Container>
-        <Image src={homeLogo} alt="Logo" width={520} height={245} />
-        <LoginForm
-          onSubmit={(event) => {
-            event.preventDefault()
-            handleSubmit(event).catch((error) => {
-              console.error('Error in handleSubmit:', error)
-            })
-          }}
-        >
-          <LoginLabel htmlFor="email">
-            <LoginLabelText>Email</LoginLabelText>
-            <LoginInput
-              onChange={handleChange}
-              name="email"
-              type="email"
-              required
-            />
-          </LoginLabel>
+    <>
+      <HeadContent title="Login" />
+      <Main>
+        <ToastContainer />
+        <Container>
+          <Image src={homeLogo} alt="Logo" width={520} height={245} />
+          <LoginForm
+            onSubmit={(event) => {
+              event.preventDefault()
+              handleSubmit(event).catch((error) => {
+                console.error('Error in handleSubmit:', error)
+              })
+            }}
+          >
+            <LoginLabel htmlFor="email">
+              <LoginLabelText>Email</LoginLabelText>
+              <LoginInput
+                onChange={handleChange}
+                name="email"
+                type="email"
+                required
+              />
+            </LoginLabel>
 
-          <LoginLabel htmlFor="password">
-            <LoginLabelText>Senha</LoginLabelText>
-            <LoginInput
-              onChange={handleChange}
-              name="password"
-              type="password"
-              required
-            />
-          </LoginLabel>
+            <LoginLabel htmlFor="password">
+              <LoginLabelText>Senha</LoginLabelText>
+              <LoginInput
+                onChange={handleChange}
+                name="password"
+                type="password"
+                required
+              />
+            </LoginLabel>
 
-          <LoginButton type="submit" disabled={isLoading}>
-            {isLoading ? <CircularProgress color="inherit" size={32} /> : 'Entrar'}
-          </LoginButton>
+            <LoginButton type="submit" disabled={isLoading}>
+              {isLoading ? <CircularProgress color="inherit" size={32} /> : 'Entrar'}
+            </LoginButton>
 
-          <LoginButtonRegister type="button">
-            <Link href="/account/new">
-              Cadastrar Conta
-            </Link>
-          </LoginButtonRegister>
+            <LoginButtonRegister type="button">
+              <Link href="/account/new">
+                Cadastrar Conta
+              </Link>
+            </LoginButtonRegister>
 
-        </LoginForm>
-      </Container>
-    </Main>
+          </LoginForm>
+        </Container>
+      </Main>
+    </>
   )
 }

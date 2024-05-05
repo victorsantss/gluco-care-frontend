@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ContentHeader from '@/components/ContentHeader'
 import { CircularProgress } from '@mui/material'
+import HeadContent from '@/components/Head'
 
 export default function NewAccount(): JSX.Element {
   const router = useRouter()
@@ -69,6 +70,7 @@ export default function NewAccount(): JSX.Element {
   return (
     <>
       <ToastContainer />
+      <HeadContent title="Cadastrar Conta" />
       <Header />
       <Main>
         <Container>
