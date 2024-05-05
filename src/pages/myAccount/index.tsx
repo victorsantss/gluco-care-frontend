@@ -71,7 +71,7 @@ export default function Home(): JSX.Element {
 
   const handleLogout = (): void => {
     Cookies.remove('userToken')
-    void router.push('/')
+    router.reload()
   }
 
   return (
