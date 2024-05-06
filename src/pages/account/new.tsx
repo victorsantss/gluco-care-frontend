@@ -63,7 +63,10 @@ export default function NewAccount(): JSX.Element {
     } catch (error) {
       setIsLoading(false)
       console.error('Error submitting form:', error)
-      toast.error('Um erro ocorreu ao criar a conta.')
+      if (error instanceof Error && (error as any).response?.status === 409) {
+        (error).message = 'Email já cadastrado!'
+      }
+      toast.error((error as Error).message)
     }
   }
 
