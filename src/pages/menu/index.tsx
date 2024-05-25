@@ -19,7 +19,7 @@ export default function Home(): JSX.Element {
       <Main>
         <MenuContainer>
           <MenuCards>
-            <MenuCard title='Nova Leitura de Glicose' icon={addIcon} url='/' />
+            <MenuCard title='Nova Leitura de Glicose' icon={addIcon} url='/glucoseReading/create' />
             <MenuCard title='Cadastro Dose de Insulina' icon={insulinDoseIcon} url='/insulinDose' />
             <MenuCard title='Cadastro Insulina' icon={insulinIcon} url='/insulin' />
             <MenuCard title='Registros de Leitura' icon={registersIcon} url='/' />
