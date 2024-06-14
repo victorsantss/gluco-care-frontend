@@ -94,19 +94,19 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
           >
             <GlucoseReadingTitleContainer>
               <GlucoseReadingFormTabTitle
-                currentTabTitle={tabIndex === 1}
+                $currentTabTitle={tabIndex === 1}
                 onClick={handleChangeTabIndex(1)}
               >
                 Etapa 1
               </GlucoseReadingFormTabTitle>
               <GlucoseReadingFormTabTitle
-                currentTabTitle={tabIndex === 2}
+                $currentTabTitle={tabIndex === 2}
                 onClick={handleChangeTabIndex(2)}
               >
                 Etapa 2
               </GlucoseReadingFormTabTitle>
               <GlucoseReadingFormTabTitle
-                currentTabTitle={tabIndex === 3}
+                $currentTabTitle={tabIndex === 3}
                 onClick={handleChangeTabIndex(3)}
               >
                 Etapa 3
