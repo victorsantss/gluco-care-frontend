@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ContentHeader from '../ContentHeader'
 import HeadContent from '../Head'
-import { GlucoseReadingFormInput, GlucoseReadingFormLabel, GlucoseReadingFormLabelText, GlucoseReadingFormSaveButton, GlucoseReadingFormSelect, GlucoseReadingFormStyle, GlucoseReadingFormTabTitle } from './styles'
+import { GlucoseReadingFormInput, GlucoseReadingFormLabel, GlucoseReadingFormLabelText, GlucoseReadingFormSaveButton, GlucoseReadingFormSelect, GlucoseReadingFormStyle, GlucoseReadingFormTabTitle, GlucoseReadingTitleContainer } from './styles'
 
 interface FormData {
   id?: number
@@ -53,6 +53,10 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
     setTabIndex((prevTabIndex) => prevTabIndex + 1)
   }, [setTabIndex])
 
+  const handleChangeTabIndex = useCallback((index: number) => () => {
+    setTabIndex(index)
+  }, [setTabIndex])
+
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setFormData((prevData) => {
@@ -88,10 +92,28 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
               })
             }}
           >
+            <GlucoseReadingTitleContainer>
+              <GlucoseReadingFormTabTitle
+                currentTabTitle={tabIndex === 1}
+                onClick={handleChangeTabIndex(1)}
+              >
+                Etapa 1
+              </GlucoseReadingFormTabTitle>
+              <GlucoseReadingFormTabTitle
+                currentTabTitle={tabIndex === 2}
+                onClick={handleChangeTabIndex(2)}
+              >
+                Etapa 2
+              </GlucoseReadingFormTabTitle>
+              <GlucoseReadingFormTabTitle
+                currentTabTitle={tabIndex === 3}
+                onClick={handleChangeTabIndex(3)}
+              >
+                Etapa 3
+              </GlucoseReadingFormTabTitle>
+            </GlucoseReadingTitleContainer>
             {tabIndex === 1 && (
               <>
-                <GlucoseReadingFormTabTitle>Etapa 1</GlucoseReadingFormTabTitle>
-
                 <GlucoseReadingFormLabel htmlFor="glucoseReadingValue">
                   <GlucoseReadingFormLabelText>Valor da Glicose</GlucoseReadingFormLabelText>
                   <GlucoseReadingFormInput
@@ -135,8 +157,6 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
 
             {tabIndex === 2 && (
               <>
-                <GlucoseReadingFormTabTitle>Etapa 2</GlucoseReadingFormTabTitle>
-
                 <GlucoseReadingFormLabel htmlFor="glucoseReadingMealType">
                   <GlucoseReadingFormLabelText>Tipo da Refeição</GlucoseReadingFormLabelText>
                   <GlucoseReadingFormSelect
@@ -196,8 +216,6 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
 
             {tabIndex === 3 && (
               <>
-                <GlucoseReadingFormTabTitle>Etapa 3</GlucoseReadingFormTabTitle>
-
                 <GlucoseReadingFormLabel htmlFor="glucoseReadingTypesInsulin">
                   <GlucoseReadingFormLabelText>Insulina</GlucoseReadingFormLabelText>
                   <GlucoseReadingFormSelect

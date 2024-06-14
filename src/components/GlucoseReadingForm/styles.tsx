@@ -13,7 +13,15 @@ export const GlucoseReadingFormStyle = styled.form`
   border: 1px solid;
 `
 
-export const GlucoseReadingFormTabTitle = styled.h2`
+export const GlucoseReadingTitleContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`
+
+export const GlucoseReadingFormTabTitle = styled.h2<{ currentTabTitle: boolean }>`
+  opacity: ${({ currentTabTitle }) => (currentTabTitle ? 1 : 0.3)};
+  cursor: pointer;
   font-size: 1.5rem;
 `
 
