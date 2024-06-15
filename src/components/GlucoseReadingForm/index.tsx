@@ -1,4 +1,4 @@
-import { type ChangeEvent, useCallback, useState } from 'react'
+import { type ChangeEvent, useCallback, useState, useEffect } from 'react'
 import { Header } from '@/components/Header'
 import { Container, Main } from '@/styles/HomeStyles'
 import { ToastContainer } from 'react-toastify'
@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import ContentHeader from '../ContentHeader'
 import HeadContent from '../Head'
 import { GlucoseReadingFormInput, GlucoseReadingFormLabel, GlucoseReadingFormLabelText, GlucoseReadingFormSaveButton, GlucoseReadingFormSelect, GlucoseReadingFormStyle, GlucoseReadingFormTabTitle, GlucoseReadingTitleContainer } from './styles'
+import insulinServices from '@/services/insulin'
+// import glucoseReadingServices from '@/services/glucoseReading'
 
 interface FormData {
   id?: number
@@ -18,6 +20,13 @@ interface FormData {
   glucoseReadingCaloriesQuantity: number
   glucoseReadingTypesInsulin: number
   glucoseReadingInsulinDose: number
+}
+
+interface Insulin {
+  id: number
+  nameInsulin: string
+  individualApplication: boolean
+  typesInsulin: number
 }
 
 interface InsulinFormProps {
@@ -37,6 +46,23 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
     glucoseReadingInsulinDose: 0
   })
   const [tabIndex, setTabIndex] = useState(1)
+  const [insulinTypes, setInsulinTypes] = useState<Insulin[]>([])
+
+  const fetchData = async (): Promise<void> => {
+    try {
+      const { data } = await insulinServices().getInsulins()
+
+      setInsulinTypes(data as Insulin[])
+    } catch (error) {
+      console.error('Error fetching insulin data:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData().catch((error) => {
+      console.error('Error in fetchData:', error)
+    })
+  }, [])
 
   // TODO: Implementar a edição de leitura de glicose
   // useEffect(() => {
@@ -57,6 +83,23 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
     setTabIndex(index)
   }, [setTabIndex])
 
+  // const getSuggestedDose = async (): Promise<void> => {
+  //   try {
+  //     const suggestedDose = await glucoseReadingServices().calculateSuggestedDose({
+  //       valueGlucose: parseInt(formData.glucoseReadingValue.toString()),
+  //       mealType: formData.glucoseReadingMealType.toString(),
+  //       proteinAmount: formData.glucoseReadingProteinsQuantity,
+  //       carbohydrateAmount: formData.glucoseReadingCarbsQuantity,
+  //       calorieAmount: formData.glucoseReadingCaloriesQuantity,
+  //       idTypeInsulin: formData.glucoseReadingTypesInsulin
+  //     })
+
+  //     console.log(suggestedDose)
+  //   } catch (error) {
+  //     console.error('Error in getSuggestedDose:', error)
+  //   }
+  // }
+
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setFormData((prevData) => {
@@ -76,7 +119,7 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
   return (
     <>
       <ToastContainer />
-      <HeadContent title="Insulina" />
+      <HeadContent title="Leitura de Glicose" />
       <Header />
       <Main>
         <Container>
@@ -225,29 +268,24 @@ export default function GlucoseReadingForm({ initialValues }: InsulinFormProps):
                     onChange={handleChange}
                     required
                   >
-                    <option value="">-</option>
-                    <option value="1">Ação Ultra-Rápida</option>
-                    <option value="2">Ação Rápida</option>
-                    <option value="3">Ação Intermediária</option>
-                    <option value="4">Ação Lenta</option>
+                    <option value={0}>-</option>
+                    {insulinTypes.map((insulin) => (
+                      <option key={insulin.id} value={insulin.id}>
+                        {insulin.nameInsulin}
+                      </option>
+                    ))}
                   </GlucoseReadingFormSelect>
                 </GlucoseReadingFormLabel>
 
                 <GlucoseReadingFormLabel htmlFor="glucoseReadingInsulinDose">
                   <GlucoseReadingFormLabelText>Dose de Insulina</GlucoseReadingFormLabelText>
-                  <GlucoseReadingFormSelect
-                    id="glucoseReadingInsulinDose"
-                    name="glucoseReadingInsulinDose"
-                    value={formData.glucoseReadingInsulinDose}
+                  <GlucoseReadingFormInput
                     onChange={handleChange}
+                    name="glucoseReadingInsulinDose"
+                    value={formData.glucoseReadingValue}
+                    type="number"
                     required
-                  >
-                    <option value="">-</option>
-                    <option value="1">Ação Ultra-Rápida</option>
-                    <option value="2">Ação Rápida</option>
-                    <option value="3">Ação Intermediária</option>
-                    <option value="4">Ação Lenta</option>
-                  </GlucoseReadingFormSelect>
+                  />
                 </GlucoseReadingFormLabel>
 
                 <GlucoseReadingFormSaveButton type="submit">Salvar Leitura</GlucoseReadingFormSaveButton>
