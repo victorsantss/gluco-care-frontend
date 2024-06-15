@@ -1,15 +1,17 @@
 import Image from 'next/image'
-import { Container } from './styles'
+import { Container, UserIcon } from './styles'
 import Link from 'next/link'
 import logo from '../../assets/logo.png'
-import { IconButton } from '@mui/material'
 import { useRouter } from 'next/router'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import userServices from '@/services/user'
+import { useEffect, useState } from 'react'
 
 export const Header: React.FC = () => {
   const router = useRouter()
   const { pathname } = router
   const isRegisterPage = pathname === '/account/new'
+  const [userName, setUserName] = useState<string>('')
+  const userNameInitials = userName.split(' ').slice(0, 2).map(name => name[0]).join('')
 
   const handleAccountButtonClick = (): void => {
     router.push('/myAccount').catch(error => {
@@ -17,15 +19,35 @@ export const Header: React.FC = () => {
     })
   }
 
+  const fetchData = async (): Promise<void> => {
+    try {
+      const { data } = await userServices().getUser()
+
+      setUserName(data.name as string)
+    } catch (error) {
+      console.error('Error fetching user data:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData().catch((error) => {
+      console.error('Error in fetchData:', error)
+    })
+  }, [])
+
   return (
     <Container>
       <Link href="/">
         <Image src={logo} alt="Logo" width={264} height={79} />
       </Link>
       {!isRegisterPage && (
-        <IconButton onClick={handleAccountButtonClick} sx={{ marginRight: '3rem' }}>
-          <AccountCircleIcon sx={{ fontSize: '3rem' }} />
-        </IconButton>
+        <UserIcon
+          onClick={handleAccountButtonClick}
+        >
+          <span>
+            {userNameInitials}
+          </span>
+        </UserIcon>
       )}
     </Container >
   )

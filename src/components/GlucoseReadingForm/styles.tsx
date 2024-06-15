@@ -19,8 +19,8 @@ export const GlucoseReadingTitleContainer = styled.div`
   justify-content: space-between;
 `
 
-export const GlucoseReadingFormTabTitle = styled.h2<{ currentTabTitle: boolean }>`
-  opacity: ${({ currentTabTitle }) => (currentTabTitle ? 1 : 0.3)};
+export const GlucoseReadingFormTabTitle = styled.h2<{ $currentTabTitle: boolean }>`
+  opacity: ${({ $currentTabTitle }) => ($currentTabTitle ? 1 : 0.3)};
   cursor: pointer;
   font-size: 1.5rem;
 `
