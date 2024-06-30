@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
             <MenuCard title='Nova Leitura de Glicose' icon={addIcon} url='/glucoseReading/create' />
             <MenuCard title='Cadastro Dose de Insulina' icon={insulinDoseIcon} url='/insulinDose' />
             <MenuCard title='Cadastro Insulina' icon={insulinIcon} url='/insulin' />
-            <MenuCard title='Registros de Leitura' icon={registersIcon} url='/' />
+            <MenuCard title='Registros de Leitura' icon={registersIcon} url='/glucoseReading' />
             <MenuCard title='Configurações' icon={configIcon} url='/configPage' />
           </MenuCards>
         </MenuContainer>

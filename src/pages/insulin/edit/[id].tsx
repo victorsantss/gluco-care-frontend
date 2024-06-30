@@ -10,7 +10,7 @@ interface Insulin {
   typesInsulin: number
 }
 
-export default function EditInsulin (): React.ReactElement {
+export default function EditInsulin(): React.ReactElement {
   const router = useRouter()
   const { id } = router.query
   const [insulinData, setInsulinData] = useState({})

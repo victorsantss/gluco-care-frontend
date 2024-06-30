@@ -29,6 +29,14 @@ const insulinDoseServices = (): any => {
     })
   }
 
+  const getInsulinDosesByTypeInsulin = async (id: number): Promise<any> => {
+    return await axiosInstance.get(`api/v1/InsulinDose/GetByIdTypeInsulin/${id}`, {
+      headers: {
+        Authorization: `Bearer ${userToken}`
+      }
+    })
+  }
+
   const createInsulinDose = async ({
     amount,
     correction,
@@ -74,6 +82,7 @@ const insulinDoseServices = (): any => {
   return {
     getInsulinDose,
     getInsulinDoses,
+    getInsulinDosesByTypeInsulin,
     createInsulinDose,
     editInsulinDose,
     deleteInsulinDose

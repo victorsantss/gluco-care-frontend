@@ -5,45 +5,46 @@ import { Box, IconButton } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { Header } from '@/components/Header'
-import { NewRegisterButton, StyledDataGrid, TableAddButton, TableContainer } from '../../styles/InsulinStyles'
+import { NewRegisterButton, StyledDataGrid, TableAddButton, TableContainer } from '../../styles/GlucoseReadingStyles'
 import ActionsModal from '@/components/DeleteModal'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Container, Main } from '../../styles/HomeStyles'
-import insulinServices from '@/services/insulin'
 import ContentHeader from '@/components/ContentHeader'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import addIcon from '../../assets/add_icon.png'
 import HeadContent from '@/components/Head'
+import glucoseReadingServices from '@/services/glucoseReading'
 
-interface Insulin {
+interface GlucoseReading {
   id: number
-  nameInsulin: string
-  individualApplication: boolean
-  typesInsulin: number
+  readingDateTime: string
+  timeOnly: string
+  mealType: string
+  valueGlucose: number
+  insulinDose: number
 }
 
 export default function Home(): React.ReactElement {
   const router = useRouter()
 
-  const [insulinData, setInsulinData] = useState<Insulin[]>([])
+  const [glucoseReadingData, setGlucoseReadingData] = useState<GlucoseReading[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [insulinId, setInsulinId] = useState<number | null>(null)
-  const insulinTypes = ['Ultra-rápida', 'Rápida', 'Intermediária', 'Lenta']
+  const [glucoseReadingId, setGlucoseReadingId] = useState<number | null>(null)
 
   const handleCloseModal = (): void => {
     setIsModalOpen(false)
-    setInsulinId(null)
+    setGlucoseReadingId(null)
   }
 
   const fetchData = async (): Promise<void> => {
     try {
-      const { data } = await insulinServices().getInsulins()
+      const { data } = await glucoseReadingServices().getGlucoseReadings()
 
-      setInsulinData(data as Insulin[])
+      setGlucoseReadingData(data as GlucoseReading[])
     } catch (error) {
-      console.error('Error fetching insulin data:', error)
+      console.error('Error fetching glucose reading data:', error)
     }
   }
 
@@ -53,52 +54,65 @@ export default function Home(): React.ReactElement {
     })
   }, [])
 
-  const handleEdit = async (insulin: Insulin): Promise<void> => {
-    await router.push(`/insulin/edit/${insulin.id}`)
+  const handleEdit = async (glucoseReading: GlucoseReading): Promise<void> => {
+    await router.push(`/glucoseReading/edit/${glucoseReading.id}`)
   }
 
   const handleDeleteWrapper = (id: number | null): void => {
     handleDelete(id).catch((error) => {
-      toast.error('Erro ao deletar insulina')
-      console.error('Error deleting insulin:', error)
+      toast.error('Erro ao deletar Leitura de Glicose')
+      console.error('Error deleting Glucose Reading:', error)
     })
   }
 
   const handleDelete = async (id: number | null): Promise<void> => {
     try {
-      await insulinServices().deleteInsulin(id)
+      await glucoseReadingServices().deleteGlucoseReading(id)
 
       setIsModalOpen(false)
-      setInsulinData(insulinData.filter((insulin) => insulin.id !== id))
+      setGlucoseReadingData(glucoseReadingData.filter((glucoseReading) => glucoseReading.id !== id))
     } catch (error) {
-      console.error('Error deleting insulin:', error)
+      console.error('Error deleting glucose reading:', error)
     }
   }
 
   const columns: Array<GridColDef<(typeof rows)[number]>> = [
     {
-      field: 'nameInsulin',
-      headerName: 'Nome',
+      field: 'readingDateTime',
+      headerName: 'Dia',
       flex: 1,
       align: 'center',
       headerAlign: 'center'
     },
     {
-      field: 'individualApplication',
-      headerName: 'Aplicação Individual',
+      field: 'timeOnly',
+      headerName: 'Hora',
       flex: 1,
       align: 'center',
-      headerAlign: 'center',
-      renderCell: (params) => ((params.value as boolean) ? 'Sim' : 'Não')
+      headerAlign: 'center'
     },
     {
-      field: 'typesInsulin',
-      headerName: 'Tipo de Insulina',
+      field: 'mealType',
+      headerName: 'Refeição',
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center'
+    },
+    {
+      field: 'valueGlucose',
+      headerName: 'Glicose',
       type: 'number',
       flex: 1,
       align: 'center',
-      headerAlign: 'center',
-      renderCell: (params) => insulinTypes[params.value - 1]
+      headerAlign: 'center'
+    },
+    {
+      field: 'insulinDose',
+      headerName: 'Dose Aplicada',
+      type: 'number',
+      flex: 1,
+      align: 'center',
+      headerAlign: 'center'
     },
     {
       field: 'actions',
@@ -114,7 +128,7 @@ export default function Home(): React.ReactElement {
           </IconButton>
           <IconButton onClick={() => {
             setIsModalOpen(true)
-            setInsulinId(params.row.id)
+            setGlucoseReadingId(params.row.id)
           }}>
             <DeleteIcon />
           </IconButton>
@@ -123,26 +137,37 @@ export default function Home(): React.ReactElement {
     }
   ]
 
-  const rows = insulinData.map((insulin) => {
+  const formatUTCDateToBrazilian = (utcDate: string): string => {
+    const date = new Date(utcDate)
+    const day = String(date.getUTCDate()).padStart(2, '0')
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0') // Months are 0-based
+    const year = date.getUTCFullYear()
+
+    return `${day}/${month}/${year}`
+  }
+
+  const rows = glucoseReadingData.map((glucoseReading) => {
     return {
-      id: insulin.id,
-      nameInsulin: insulin.nameInsulin,
-      individualApplication: insulin.individualApplication,
-      typesInsulin: insulin.typesInsulin
+      id: glucoseReading.id,
+      readingDateTime: formatUTCDateToBrazilian(glucoseReading.readingDateTime),
+      timeOnly: glucoseReading.timeOnly,
+      mealType: glucoseReading.mealType,
+      valueGlucose: glucoseReading.valueGlucose,
+      insulinDose: glucoseReading.insulinDose
     }
   })
 
   return (
     <>
       <ToastContainer />
-      <HeadContent title="Insulinas" />
+      <HeadContent title="Registros de Leituras" />
       <Header />
       <Main>
         <Container>
-          <ContentHeader goBackUrl='/' title='Insulinas' />
+          <ContentHeader goBackUrl='/' title='Registros de Leituras' />
           <TableContainer>
             <TableAddButton>
-              <Link href="/insulin/create">
+              <Link href="/glucoseReading/create">
                 <NewRegisterButton type="button">
                   Novo Registro
                   <Image src={addIcon} alt="Add" width={26} height={26} />
@@ -180,7 +205,7 @@ export default function Home(): React.ReactElement {
             />
             <ActionsModal
               isOpen={isModalOpen}
-              id={insulinId}
+              id={glucoseReadingId}
               onClose={handleCloseModal}
               onConfirmDelete={(id) => { handleDeleteWrapper(id) }}
             />
