@@ -5,7 +5,7 @@ export const GlucoseReadingFormStyle = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 26.25rem;
+  width: 50%;
   gap: 0.75rem;
   background-color: white;
   padding: 1.5rem;
@@ -23,10 +23,29 @@ export const GlucoseReadingFormTabTitle = styled.h2<{ $currentTabTitle: boolean 
   opacity: ${({ $currentTabTitle }) => ($currentTabTitle ? 1 : 0.3)};
   cursor: pointer;
   font-size: 1.5rem;
+  color: #3245F0;
 `
 
 export const GlucoseReadingFormLabel = styled.label`
-  width: 24.375rem;
+  width: 100%;
+`
+
+export const GlucoseReadingFormLabelLarge = styled.label`
+  width: 60%;
+`
+
+export const GlucoseReadingFormLabelSmaller = styled.label`
+  width: 40%;
+`
+
+export const GlucoseReadingFormLabelSmallerText = styled.p`
+  font-size: 1.5rem;
+  line-height: 4rem;
+
+  svg {
+    font-size: 1.2rem;
+    margin-left: 0.1rem;
+  }
 `
 
 export const GlucoseReadingFormLabelText = styled.span`
@@ -42,6 +61,10 @@ export const GlucoseReadingFormInput = styled.input`
   border: 1px solid;
   border-radius: 0.25rem;
   font-family: var(--font-mono);
+
+  &:disabled {
+    opacity: 0.3;
+  }
 `
 
 export const GlucoseReadingFormSelect = styled.select`
@@ -53,6 +76,10 @@ export const GlucoseReadingFormSelect = styled.select`
   border: 1px solid;
   border-radius: 0.25rem;
   font-family: var(--font-mono);
+
+  &:disabled {
+    opacity: 0.3;
+  }
 `
 
 export const GlucoseReadingFormCheckbox = styled.input`
@@ -76,4 +103,27 @@ export const GlucoseReadingFormSaveButton = styled.button`
   &:hover {
     background-color: #5468d4;
   }
+`
+
+export const GlucoseReadingContainer = styled.div`
+  position: relative;
+  border: 1px solid;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+`
+
+export const GlucoseReadingInsulinSecondTitle = styled.h3`
+  position: absolute;
+  font-size: 1.5rem;
+  top: -1rem;
+  background-color: white;
+  color: #3245F0;
+`
+
+export const GlucoseReadingFlexContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
 `
