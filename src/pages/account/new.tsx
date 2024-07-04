@@ -92,6 +92,7 @@ export default function NewAccount(): JSX.Element {
                 onChange={handleChange}
                 name="name"
                 type="text"
+                maxLength={100}
                 placeholder="Pedro Silva"
                 value={formData.name}
                 required
@@ -105,6 +106,7 @@ export default function NewAccount(): JSX.Element {
                 name="email"
                 type="email"
                 placeholder="pedro@exemplo.com"
+                maxLength={100}
                 value={formData.email}
                 required
                 pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
@@ -117,6 +119,7 @@ export default function NewAccount(): JSX.Element {
                 onChange={handleChange}
                 name="password"
                 type="password"
+                maxLength={20}
                 value={formData.password}
                 required
               />
@@ -128,6 +131,7 @@ export default function NewAccount(): JSX.Element {
                 onChange={handleChange}
                 name="passwordConfirmation"
                 type="password"
+                maxLength={20}
                 value={formData.passwordConfirmation}
                 required
               />
