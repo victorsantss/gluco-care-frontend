@@ -154,7 +154,7 @@ export default function Home(): React.ReactElement {
       <Header />
       <Main>
         <Container>
-          <ContentHeader goBackUrl='/' title='Doses de Insulina' />
+          <ContentHeader goBackUrl='/menu' title='Doses de Insulina' />
           <TableContainer>
             <TableAddButton>
               <Link href="/insulinDose/create">

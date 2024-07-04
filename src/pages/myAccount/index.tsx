@@ -82,7 +82,7 @@ export default function Home(): JSX.Element {
       <Header />
       <Main>
         <Container>
-          <ContentHeader title='Minha Conta' goBackUrl='/' />
+          <ContentHeader title='Minha Conta' goBackUrl='/menu' />
 
           <FormStyled
             onSubmit={(event) => {
