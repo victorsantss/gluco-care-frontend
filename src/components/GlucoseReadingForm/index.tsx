@@ -533,6 +533,7 @@ export default function GlucoseReadingForm({ initialValues }: GlucoseReadingForm
                       value={formData.glucoseReadingSuggestedDose}
                       disabled={formData.glucoseReadingTypesInsulin === 0 || formData.glucoseReadingInsulinDose === 0}
                       type="number"
+                      step="any"
                       min="1"
                       required
                     />
@@ -597,6 +598,7 @@ export default function GlucoseReadingForm({ initialValues }: GlucoseReadingForm
                           value={formData.glucoseReadingSuggestedDoseSecond}
                           disabled={formData.glucoseReadingTypesInsulin === 0 || formData.glucoseReadingInsulinDoseSecond === 0}
                           type="number"
+                          step="any"
                           min="1"
                           required
                         />

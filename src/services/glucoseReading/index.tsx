@@ -115,7 +115,7 @@ const glucoseReadingServices = (): any => {
     insulinDoseSecond,
     timeOnly
   }: PutData): Promise<any> => {
-    return await axiosInstance.put(`api/v1/InsulinDose/${id}`, {
+    return await axiosInstance.put(`api/v1/GlucoseReading/${id}`, {
       id,
       valueGlucose,
       readingDateTime,
