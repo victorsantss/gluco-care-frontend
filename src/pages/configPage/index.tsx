@@ -67,7 +67,7 @@ export default function Home(): JSX.Element {
       <Header />
       <Main>
         <Container>
-          <ContentHeader title='Configurações' goBackUrl='/menu' />
+          <ContentHeader title='Configurações' />
 
           <FormStyled
           >

@@ -77,7 +77,7 @@ export default function NewAccount(): JSX.Element {
       <Header />
       <Main>
         <Container>
-          <ContentHeader title='Nova Conta' goBackUrl='/menu' />
+          <ContentHeader title='Nova Conta' goBackUrl='/' />
           <RegisterForm
             onSubmit={(event) => {
               event.preventDefault()

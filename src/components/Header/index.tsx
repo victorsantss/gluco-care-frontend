@@ -30,9 +30,11 @@ export const Header: React.FC = () => {
   }
 
   useEffect(() => {
-    fetchData().catch((error) => {
-      console.error('Error in fetchData:', error)
-    })
+    if (!isRegisterPage) {
+      fetchData().catch((error) => {
+        console.error('Error in fetchData:', error)
+      })
+    }
   }, [])
 
   return (
