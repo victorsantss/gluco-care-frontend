@@ -35,6 +35,8 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
     correction: 0,
     idTypeInsulin: 0
   })
+
+  console.log(formData)
   const [insulinTypes, setInsulinTypes] = useState<Insulin[]>([])
 
   const fetchData = async (): Promise<void> => {
@@ -79,7 +81,7 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
     event.preventDefault()
 
     try {
-      if (formData.amount === 0 || formData.correction === 0 || formData.idTypeInsulin === 0) {
+      if (formData.amount === 0 || formData.idTypeInsulin === 0) {
         toast.error('Por favor preencha todos os campos.')
         return
       }
