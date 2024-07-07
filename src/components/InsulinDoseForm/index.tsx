@@ -155,7 +155,6 @@ export default function InsulinDoseForm({ initialValues }: InsulinFormProps): Re
                 name="correction"
                 value={formData.correction}
                 type="number"
-                min="1"
                 required
               />
             </InsulinFormLabel>
